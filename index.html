@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Tab and Map Example</title>
+
+<!-- Thêm Leaflet -->
+<link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+
+<style>
+* {
+  box-sizing: border-box;
+}
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Header */
+.header {
+  background: #d32f2f;
+  color: white;
+  width: 100vw;
+  height: 100px;
+  padding: 12px;
+  text-align: center;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+/* Nội dung chính */
+.main {
+  flex: 1;
+  display: flex;
+}
+
+/* Sidebar */
+.sidebar {
+  width: 30%;
+  background: #f5f5f5;
+  padding: 20px;
+  box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+  overflow-y: auto;
+}
+
+/* Map */
+#map {
+  flex: 1;
+  height: calc(100vh - 100px); /* full height trừ header */
+  margin-left: 10px;
+  margin-right: 10px;
+  border: 1px solid #ccc;
+}
+
+/* Tabs */
+.tabs {
+  display: flex;
+  cursor: pointer;
+  flex-wrap: wrap;
+}
+.tab {
+  padding: 10px 20px;
+  border: 1px solid #ccc;
+  border-bottom: none;
+  background: #f1f1f1;
+}
+.tab.active {
+  background: #fff;
+  font-weight: bold;
+}
+.content {
+  border: 1px solid #ccc;
+  padding: 20px;
+  display: none;
+}
+.content.active {
+  display: block;
+}
+</style>
+</head>
+<body>
+
+<!-- Header -->
+<div class="header">
+  🌏 Hồ Chí Minh - Thành phố tôi yêu
+</div>
+
+<!-- Nội dung chính -->
+<div class="main"> 
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <div class="tabs">
+      <div class="tab active" onclick="showTab(1)">Giới thiệu</div>
+      <div class="tab" onclick="showTab(2)">Xem thêm</div>
+      <div class="tab" onclick="showTab(3)">Tham khảo</div>
+      <div class="tab" onclick="showTab(4)">Đóng góp</div>
+    </div>
+
+    <!-- Nội dung các tab -->
+    <div id="tab1" class="content active">
+      <h2>Giới thiệu</h2>
+      <p>Đây là nội dung của tab 1.</p>
+    </div>
+    <div id="tab2" class="content">
+      <h2>Xem thêm</h2>
+      <p>Đây là nội dung của tab 2.</p>
+    </div>
+    <div id="tab3" class="content">
+      <h2>Tham khảo</h2>
+      <p>Đây là nội dung của tab 3.</p>
+    </div>
+    <div id="tab4" class="content">
+      <h2>Đóng góp</h2>
+      <p>Đây là nội dung của tab 4.</p>
+    </div>
+  </div>
+
+  <!-- Bản đồ -->
+  <div id="map"></div>
+</div>
+
+<!-- Script -->
+<script>
+function showTab(tabNumber) {
+  const tabs = document.querySelectorAll('.tab');
+  const contents = document.querySelectorAll('.content');
+  tabs.forEach((tab, index) => {
+    if (index + 1 === tabNumber) {
+      tab.classList.add('active');
+    } else {
+      tab.classList.remove('active');
+    }
+  });
+  contents.forEach((content, index) => {
+    if (index + 1 === tabNumber) {
+      content.classList.add('active');
+    } else {
+      content.classList.remove('active');
+    }
+  });
+}
+
+// Tạo bản đồ, zoom vào HCM
+var map = L.map('map').setView([10.762622, 106.660172], 12);
+
+// Lớp nền
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+  attribution: '&copy; OpenStreetMap'
+}).addTo(map);
+
+// Danh sách địa danh
+var places = [
+  {lat: 10.7769, lng: 106.7009, name: "Nhà thờ Đức Bà", url: "https://vi.wikipedia.org/wiki/Nhà_thờ_Đức_Bà_Sài_Gòn"},
+  {lat: 10.7798, lng: 106.6990, name: "Bưu điện TP HCM", url: "https://vi.wikipedia.org/wiki/Bưu_điện_TP_Hồ_Chí_Minh"},
+  {lat: 10.7792, lng: 106.6950, name: "Dinh Độc Lập", url: "https://vi.wikipedia.org/wiki/Dinh_Độc_Lập"}
+];
+
+// Thêm marker
+places.forEach(function(p) {
+  var marker = L.marker([p.lat, p.lng]).addTo(map);
+  marker.bindPopup(`<b>${p.name}</b><br><a href="${p.url}" target="_blank">Xem chi tiết</a>`);
+});
+</script>
+
+</body>
+</html>
