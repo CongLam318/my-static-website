@@ -1,171 +1,307 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Tab and Map Example</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Hành trình từ bảo tàng đến bảo tàng</title>
+  <!-- Leaflet -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
 
-<!-- Thêm Leaflet -->
-<link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
-<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+  <!-- Geocoder -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css" />
+  <script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
 
-<style>
-* {
-  box-sizing: border-box;
-}
-body {
-  margin: 0;
-  font-family: Arial, sans-serif;
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
-}
+  <!-- Fullscreen -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet.fullscreen/Control.FullScreen.css" />
+  <script src="https://unpkg.com/leaflet.fullscreen/Control.FullScreen.js"></script>
 
-/* Header */
-.header {
-  background: #d32f2f;
-  color: white;
-  width: 100vw;
-  height: 100px;
-  padding: 12px;
-  text-align: center;
-  font-size: 20px;
-  font-weight: bold;
-}
+  <!-- Locate -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet.locatecontrol/dist/L.Control.Locate.min.css" />
+  <script src="https://unpkg.com/leaflet.locatecontrol/dist/L.Control.Locate.min.js"></script>
 
-/* Nội dung chính */
-.main {
-  flex: 1;
-  display: flex;
-}
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
 
-/* Sidebar */
-.sidebar {
-  width: 30%;
-  background: #f5f5f5;
-  padding: 20px;
-  box-shadow: 2px 0 5px rgba(0,0,0,0.1);
-  overflow-y: auto;
-}
+    /* Header */
+    .header {
+      background: #fffce2;
+      color: white;
+      width: 100%;
+      height: 150px;
+      aspect-ratio: 16 / 9; 
+      background-image: url('header.png'); 
+      background-size:60%;
+      background-position: center;
+      background-repeat: no-repeat;
+      padding: 12px;
+      text-align: center;
+      font-size: 20px;
+      font-weight: bold;
+    }
 
-/* Map */
-#map {
-  flex: 1;
-  height: calc(100vh - 100px); /* full height trừ header */
-  margin-left: 10px;
-  margin-right: 10px;
-  border: 1px solid #ccc;
-}
+    /* Nội dung chính */
+    .main {
+      flex: 1;
+      display: flex;
+    }
 
-/* Tabs */
-.tabs {
-  display: flex;
-  cursor: pointer;
-  flex-wrap: wrap;
-}
-.tab {
-  padding: 10px 20px;
-  border: 1px solid #ccc;
-  border-bottom: none;
-  background: #f1f1f1;
-}
-.tab.active {
-  background: #fff;
-  font-weight: bold;
-}
-.content {
-  border: 1px solid #ccc;
-  padding: 20px;
-  display: none;
-}
-.content.active {
-  display: block;
-}
-</style>
+    /* Sidebar */
+    .sidebar {
+      width: 30%;
+      background: #fffce2;
+      padding: 20px;
+ 
+      overflow-y: auto;
+    }
+
+    /* Map */
+    #map {
+      flex: 1;
+      height: calc(100vh - 150px);
+      border: 10px solid #fffce2;
+    }
+
+    /* Tabs */
+    .tabs {
+      display:flex;
+      cursor: pointer;
+      flex-wrap: wrap;
+    }
+    .tab {
+      width: 50%;
+      background-color: #da251dff;
+      color: #ffff00ff;
+      border: none;
+      outline: none;
+      cursor: pointer;
+      padding: 14px 16px;
+      font-size: 20px;
+      font-weight: bold;
+      text-align: center;
+    }
+    .tab.active {
+      background: #f37267e5;
+    }
+
+    .content {
+      color: #da251dff;
+      display: none;
+      text-align: justify;
+    }
+    .content.active {
+      display: block;
+    }
+    /* Thanh tìm kiếm */
+    #search-container {
+      position: relative;
+      padding: 8px;
+      background: #f8f9fa;
+    }
+    #museumSearch {
+      width: 100%;
+      padding: 8px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+    }
+
+    #searchResults {
+      position: absolute;
+      top: 40px;
+      left: 8px;
+      right: 8px;
+      background: #fff;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      max-height: 200px;
+      overflow-y: auto;
+      z-index: 9999;
+      display: none;
+    }
+    #searchResults div {
+      padding: 6px 10px;
+      cursor: pointer;
+    }
+    #searchResults div:hover {
+      background: #f0f0f0;
+    }
+
+  </style>
 </head>
 <body>
 
-<!-- Header -->
-<div class="header">
-  🌏 Hồ Chí Minh - Thành phố tôi yêu
-</div>
+  <!-- Header -->
+  <div class="header"></div>
 
-<!-- Nội dung chính -->
-<div class="main"> 
-  <!-- Sidebar -->
-  <div class="sidebar">
-    <div class="tabs">
-      <div class="tab active" onclick="showTab(1)">Giới thiệu</div>
-      <div class="tab" onclick="showTab(2)">Xem thêm</div>
-      <div class="tab" onclick="showTab(3)">Tham khảo</div>
-      <div class="tab" onclick="showTab(4)">Đóng góp</div>
+  <!-- Nội dung chính -->
+  <div class="main"> 
+    <!-- Sidebar -->
+    <div class="sidebar">
+      <div class="tabs">
+        <div class="tab active" onclick="showTab(1)">GIỚI THIỆU</div>
+        <div class="tab" onclick="showTab(2)">ĐÓNG GÓP</div>
+      </div>
+       <!-- Thanh tìm kiếm -->
+      <div id="search-container">
+        <input type="text" id="museumSearch" placeholder="Tìm kiếm bảo tàng..." />
+        <div id="searchResults"></div>
+      </div>
+      <!-- Nội dung các tab -->
+      <div id="tab1" class="content active" style="text-indent: 20px">
+        </h2>
+        <h2 style="text-align:center; padding-top:20px; font-size: 30px;">
+          HÀNH TRÌNH TỪ BẢO TÀNG ĐẾN BẢO TÀNG
+        </h2>
+        <p style="word-spacing: 5px;">
+          Hành trình từ bảo tàng đến bảo tàng" không chỉ là một trang web đơn thuần mà là một nền tảng giáo dục số đa chiều và đầy cảm hứng, được thiết kế tinh tế dành riêng cho cộng đồng sinh viên năng động tại Thành phố Hồ Chí Minh. 
+        </p>
+        <p style="word-spacing: 5px;">
+          Sứ mệnh của chúng tôi là khơi dậy và nuôi dưỡng niềm đam mê bất tận đối với lịch sử, văn hóa dân tộc, biến hành trình tìm hiểu các bảo tàng và di tích trên khắp TP.HCM và cả nước trở thành một trải nghiệm tương tác, sống động và mang tính cá nhân hóa sâu sắc. 
+        </p>
+        <p style="word-spacing: 5px;">
+          Đây là không gian nơi mỗi sinh viên không chỉ tra cứu thông tin mà còn có thể chia sẻ cảm nhận, hình ảnh, và thậm chí đề xuất những địa điểm mới, cùng nhau làm phong phú thêm bản đồ di sản chung của Việt Nam.
+        </p>
+      </div>
+      <div id="tab2" class="content" >
+        <p>Đây là nội dung góp ý.</p>
+      </div>
     </div>
 
-    <!-- Nội dung các tab -->
-    <div id="tab1" class="content active">
-      <h2>Giới thiệu</h2>
-      <p>Đây là nội dung của tab 1.</p>
-    </div>
-    <div id="tab2" class="content">
-      <h2>Xem thêm</h2>
-      <p>Đây là nội dung của tab 2.</p>
-    </div>
-    <div id="tab3" class="content">
-      <h2>Tham khảo</h2>
-      <p>Đây là nội dung của tab 3.</p>
-    </div>
-    <div id="tab4" class="content">
-      <h2>Đóng góp</h2>
-      <p>Đây là nội dung của tab 4.</p>
-    </div>
+    <!-- Bản đồ -->
+    <div id="map"></div>
   </div>
 
-  <!-- Bản đồ -->
-  <div id="map"></div>
-</div>
+  <!-- Script -->
+  <script>
+    // Tạo chuyển tab
+    function showTab(tabNumber) {
+      const tabs = document.querySelectorAll('.tab');
+      const contents = document.querySelectorAll('.content');
+      
+      tabs.forEach((tab, index) => {
+        tab.classList.toggle('active', index + 1 === tabNumber);
+      });
+      contents.forEach((content, index) => {
+        content.classList.toggle('active', index + 1 === tabNumber);
+      });
+    }
+  // Khởi tạo bản đồ
+  var map = L.map('map', {
+    fullscreenControl: true  // bật fullscreen
+  }).setView([10.762622, 106.660172], 12);
 
-<!-- Script -->
-<script>
-function showTab(tabNumber) {
-  const tabs = document.querySelectorAll('.tab');
-  const contents = document.querySelectorAll('.content');
-  tabs.forEach((tab, index) => {
-    if (index + 1 === tabNumber) {
-      tab.classList.add('active');
+  // Lớp nền
+  var streetMap = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '&copy; OpenStreetMap'
+  }).addTo(map);
+
+  var satelliteMap = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/' +
+    'World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+      attribution: 'Tiles © Esri'
+  });
+
+  var baseMaps = {
+    "Bản đồ mặc định": streetMap,
+    "Bản đồ vệ tinh": satelliteMap
+  };
+  L.control.layers(baseMaps).addTo(map);
+
+  // Icon Việt Nam
+  var vietnamIcon = L.icon({
+    iconUrl: 'vietnam.png',
+    iconSize: [42, 28],
+    iconAnchor: [20, 40],
+    popupAnchor: [0, -40]
+  });
+
+  // Danh sách địa điểm
+  var locations = [
+    {
+      name: "Bảo tàng Chứng tích Chiến tranh", 
+      coords: [10.77968976110387, 106.69209159558208], 
+      link: "https://hochiminhcity.gov.vn",
+      desc: "Nơi lưu giữ nhiều hình ảnh, tư liệu về chiến tranh Việt Nam."
+    },
+    {
+      name: "Bảo tàng Thành phố Hồ Chí Minh", 
+      coords: [10.776229080283908, 106.699561764892], 
+      link: "https://hanoi.gov.vn",
+      desc: "Nơi trưng bày lịch sử hình thành và phát triển TP.HCM."
+    },
+    {
+      name: "Bảo tàng Mỹ thuật TP.HCM", 
+      coords: [10.770269145655245, 106.69926079743563], 
+      link: "https://danang.gov.vn",
+      desc: "Trưng bày nhiều tác phẩm mỹ thuật, hội họa, điêu khắc."
+    },
+    {
+      name: "Bảo tàng Tôn Đức Thắng", 
+      coords: [10.777425204072086, 106.70658398023713], 
+      link: "https://cantho.gov.vn",
+      desc: "Giới thiệu về cuộc đời và sự nghiệp của Chủ tịch Tôn Đức Thắng."
+    }
+  ];
+
+  // Lưu marker vào mảng để tìm kiếm
+  var markers = [];
+
+  locations.forEach(function(loc) {
+    var popupContent = `
+      <b>${loc.name}</b><br>
+      <i>${loc.desc}</i><br>
+      <a href="${loc.link}" target="_blank">Xem chi tiết</a>
+    `;
+    var marker = L.marker(loc.coords, {icon: vietnamIcon}).bindPopup(popupContent).addTo(map);
+    markers.push({ name: loc.name, coords: loc.coords, marker: marker });
+  });
+
+  // Xử lý tìm kiếm
+  const searchInput = document.getElementById("museumSearch");
+  const searchResults = document.getElementById("searchResults");
+
+  searchInput.addEventListener("input", function() {
+    const query = this.value.toLowerCase();
+    searchResults.innerHTML = "";
+    if (!query) {
+      searchResults.style.display = "none";
+      return;
+    }
+
+    const results = markers.filter(m => m.name.toLowerCase().includes(query));
+    if (results.length > 0) {
+      searchResults.style.display = "block";
+      results.forEach(r => {
+        const div = document.createElement("div");
+        div.textContent = r.name;
+        div.addEventListener("click", () => {
+          map.setView(r.coords, 16); // zoom vào bảo tàng
+          r.marker.openPopup();
+          searchResults.style.display = "none";
+          searchInput.value = r.name;
+        });
+        searchResults.appendChild(div);
+      });
     } else {
-      tab.classList.remove('active');
+      searchResults.style.display = "none";
     }
   });
-  contents.forEach((content, index) => {
-    if (index + 1 === tabNumber) {
-      content.classList.add('active');
-    } else {
-      content.classList.remove('active');
+
+  // Nút hiện vị trí hiện tại
+  L.control.locate({
+    position: 'topleft',
+    strings: {
+      title: "Xem vị trí hiện tại"
     }
-  });
-}
-
-// Tạo bản đồ, zoom vào HCM
-var map = L.map('map').setView([10.762622, 106.660172], 12);
-
-// Lớp nền
-L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-  attribution: '&copy; OpenStreetMap'
-}).addTo(map);
-
-// Danh sách địa danh
-var places = [
-  {lat: 10.7769, lng: 106.7009, name: "Nhà thờ Đức Bà", url: "https://vi.wikipedia.org/wiki/Nhà_thờ_Đức_Bà_Sài_Gòn"},
-  {lat: 10.7798, lng: 106.6990, name: "Bưu điện TP HCM", url: "https://vi.wikipedia.org/wiki/Bưu_điện_TP_Hồ_Chí_Minh"},
-  {lat: 10.7792, lng: 106.6950, name: "Dinh Độc Lập", url: "https://vi.wikipedia.org/wiki/Dinh_Độc_Lập"}
-];
-
-// Thêm marker
-places.forEach(function(p) {
-  var marker = L.marker([p.lat, p.lng]).addTo(map);
-  marker.bindPopup(`<b>${p.name}</b><br><a href="${p.url}" target="_blank">Xem chi tiết</a>`);
-});
-</script>
-
+  }).addTo(map);
+  </script>
 </body>
 </html>
