@@ -23,6 +23,7 @@
       height: 100vh;
       display: flex;
       flex-direction: column;
+      overflow: hidden;
     }
 
     /* Header */
@@ -33,37 +34,41 @@
       background-size: cover;    
       background-position: center;
       background-repeat: no-repeat;
+      flex-shrink: 0;
     }
 
     /* Thanh tìm kiếm */
     .search-container {
       display: flex;
-      justify-content:center;
+      justify-content: center;
       align-items: center;
-      padding-top: 10px;
-      padding-bottom: 10px;
-      padding-left: 10px;
+      padding: 10px;
       background: #efede5;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      /*box-shadow: 0 2px 4px rgba(0,0,0,0.1);*/
       position: relative;
       z-index: 1500;
-      width: 100vw;
+      width: 100%;
+      flex-shrink: 0;
     }
 
     .search-container input {
-      width: 750px;
-      padding: 8px;
+      width: 100%;
+      max-width: 750px;
+      padding: 10px 15px;
       border: 1px solid black;
       border-radius: 20px;
+      font-family: 'Times New Roman', Times, serif;
+      font-size: 18px;
     }
 
     /* Kết quả tìm kiếm */
     .search-results {
       position: absolute;
-      top: 45px;
+      top: 100%;
       background: white;
       border: 1px solid #ccc;
-      width: 750px;
+      width: 100%;
+      max-width: 750px;
       max-height: 200px;
       overflow-y: auto;
       display: none;
@@ -77,43 +82,40 @@
       background: #f0f0f0;
     }
 
-    /* Map */
+    /* Layout chính */
+    .main {
+      flex: 1;
+      display: flex;
+      height: calc(100vh - 180px); /* trừ header + search */
+    }
+
+    /* Sidebar cố định bên trái */
+    .sidebar {
+      width: 30%;
+      background: #efede5;
+      padding: 20px;
+      overflow-y: auto;
+      border-right: 1px solid #ccc;
+    }
+
+    /* Map bên phải */
     #map {
       flex: 1;
     }
 
-    /* Sidebar */
-      /* Sidebar */
-    .sidebar {
-      position:absolute;
-      bottom: 0;
-      left: -500px; /* Ẩn ban đầu */
-      width: 30%;
-      height: calc(100%-150px);
-      background:#efede5;
-      padding: 20px;
-      box-shadow: 2px 0 5px rgba(0,0,0,0.3);
-      transition: left 0.3s ease;
-      z-index: 1000;
-      border-top-right-radius: 10px;
-    }
-
-    .sidebar.active {
-      left: 0;
-    }
-
-    /* Nút toggle */
-    .toggle-btn {
-      position: fixed;
-      bottom: 0;
-      left: 20px;
-      background: #ff5252;
-      color: white;
-      border: none;
-      padding: 10px 15px;
-      cursor: pointer;
-      z-index: 1100;
-      border-radius: 5px;
+    /* Responsive cho điện thoại */
+    @media (max-width: 768px) {
+      .main {
+        flex-direction: column;
+      }
+      .sidebar {
+        width: 100%;
+        height: 250px;
+      }
+      #map {
+        height: calc(100vh - 430px); /* trừ header, search, sidebar */
+        width: 100%;
+      }
     }
   </style>
 </head>
@@ -128,13 +130,15 @@
     <div id="searchResults" class="search-results"></div>
   </div>
 
-  <!-- Bản đồ -->
-  <div id="map"></div>
-
-  <!-- Sidebar giới thiệu -->
-  <div class="sidebar" id="sidebar">
-    <h2 style="text-align:center; padding-top:20px; font-size: 30px;">
-          HÀNH TRÌNH TỪ BẢO TÀNG ĐẾN BẢO TÀNG </h2>
+  <!-- Nội dung chính: Sidebar + Map -->
+  <div class="main">
+    <!-- Sidebar giới thiệu -->
+     <div class = "tab ">
+      
+     </div>
+      <div class="sidebar">
+        <h2 style="text-align:center; padding-top:20px; font-size: 30px; color: #da251d;">
+            GIỚI THIỆU</h2>
         <p style="word-spacing: 5px;">
           Hành trình từ bảo tàng đến bảo tàng" không chỉ là một trang web đơn thuần mà là một nền tảng giáo dục số đa chiều và đầy cảm hứng, được thiết kế tinh tế dành riêng cho cộng đồng sinh viên năng động tại Thành phố Hồ Chí Minh.
         </p>
@@ -144,15 +148,12 @@
         <p style="word-spacing: 5px;">
           Đây là không gian nơi mỗi sinh viên không chỉ tra cứu thông tin mà còn có thể chia sẻ cảm nhận, hình ảnh, và thậm chí đề xuất những địa điểm mới, cùng nhau làm phong phú thêm bản đồ di sản chung của Việt Nam.
         </p>
+      </div>
+    <!-- Bản đồ -->
+    <div id="map"></div>
   </div>
 
-  <!-- Nút toggle -->
-   <button class="toggle-btn" onclick="toggleSidebar()">☰</button>
   <script>
-    function toggleSidebar() {
-      document.getElementById("sidebar").classList.toggle("active");
-    }
-
     // Khởi tạo bản đồ
     var map = L.map('map', {
       fullscreenControl: true
@@ -184,113 +185,109 @@
 
     // Danh sách bảo tàng
     var locations = [
-      {
+     {
         name: "Bảo tàng Chứng tích Chiến tranh", 
-        coords: [10.77968976110387, 106.69209159558208], 
-        link: "https://hochiminhcity.gov.vn",
-        desc: "Nơi lưu giữ nhiều hình ảnh, tư liệu về chiến tranh Việt Nam."
+        coords: [10.77968976110387, 106.69209159558208]
       },
       {
         name: "Bảo tàng Thành phố Hồ Chí Minh", 
-        coords: [10.776229080283908, 106.699561764892], 
-        link: "https://hanoi.gov.vn",
-        desc: "Nơi trưng bày lịch sử hình thành và phát triển TP.HCM."
+        coords: [10.776229080283908, 106.699561764892]
       },
       {
         name: "Bảo tàng Mỹ thuật TP.HCM", 
-        coords: [10.770269145655245, 106.69926079743563], 
-        link: "https://danang.gov.vn",
-        desc: "Trưng bày nhiều tác phẩm mỹ thuật, hội họa, điêu khắc."
+        coords: [10.770269145655245, 106.69926079743563]
       },
       {
         name: "Bảo tàng Tôn Đức Thắng", 
-        coords: [10.777425204072086, 106.70658398023713], 
-        link: "https://cantho.gov.vn",
-        desc: "Giới thiệu về cuộc đời và sự nghiệp của Chủ tịch Tôn Đức Thắng."
+        coords: [10.777425204072086, 106.70658398023713]
       },
       {
         name: "Bảo tàng Lịch sử Thành phố Hồ Chí Minh", 
-        coords: [10.78842816206161, 106.70450576086436], 
-        link: "https://cantho.gov.vn",
-        desc: "Giới thiệu về cuộc đời và sự nghiệp của Chủ tịch Tôn Đức Thắng."
+        coords: [10.78842816206161, 106.70450576086436]
       },
        {
         name: "Dinh Độc Lập", 
-        coords: [10.77724713978662, 106.69529136674576], 
-        link: "https://cantho.gov.vn",
-        desc: "Giới thiệu về cuộc đời và sự nghiệp của Chủ tịch Tôn Đức Thắng."
+        coords: [10.77724713978662, 106.69529136674576]
       },
       {
         name: "Bến Nhà Rồng (Bảo tàng Hồ Chí Minh)", 
-        coords: [10.768391988013375, 106.7068649820907], 
-        link: "https://cantho.gov.vn",
-        desc: "Giới thiệu về cuộc đời và sự nghiệp của Chủ tịch Tôn Đức Thắng."
+        coords: [10.768391988013375, 106.7068649820907]
       },
       {
         name: "Bảo tàng Phụ nữ Nam bộ", 
-        coords: [10.783870997980646, 106.68763269558207], 
-        link: "https://cantho.gov.vn",
-        desc: "Giới thiệu về cuộc đời và sự nghiệp của Chủ tịch Tôn Đức Thắng."
+        coords: [10.783870997980646, 106.68763269558207]
       },
       {
         name: "Bảo tàng Y học Cổ truyền Việt Nam", 
-        coords: [10.776435240469658, 106.67191968209079], 
-        link: "https://cantho.gov.vn",
-        desc: "Giới thiệu về cuộc đời và sự nghiệp của Chủ tịch Tôn Đức Thắng."
+        coords: [10.776435240469658, 106.67191968209079]
       },
       {
         name: "Bảo tàng Áo Dài", 
-        coords: [10.808667990322046, 106.85301395165877], 
-        link: "https://cantho.gov.vn",
-        desc: "Giới thiệu về cuộc đời và sự nghiệp của Chủ tịch Tôn Đức Thắng."
+        coords: [10.808667990322046, 106.85301395165877]
       },
       {
         name: "Bảo tàng Quân khu 7", 
-        coords: [10.801150288054043, 106.66639517705971], 
-        link: "https://cantho.gov.vn",
-        desc: "Giới thiệu về cuộc đời và sự nghiệp của Chủ tịch Tôn Đức Thắng."
+        coords: [10.801150288054043, 106.66639517705971]
       },
       {
         name: "Bảo tàng Sâm Ngọc Linh", 
-        coords: [10.784786290808798, 106.62184259372839], 
-        link: "https://cantho.gov.vn",
-        desc: "Giới thiệu về cuộc đời và sự nghiệp của Chủ tịch Tôn Đức Thắng."
+        coords: [10.784786290808798, 106.62184259372839]
       },
       {
         name: "Địa đạo Củ Chi", 
-        coords: [11.14156101510885, 106.46217581093259], 
-        link: "https://cantho.gov.vn",
-        desc: "Giới thiệu về cuộc đời và sự nghiệp của Chủ tịch Tôn Đức Thắng."
+        coords: [11.14156101510885, 106.46217581093259]
       },
       {
         name: "Hầm bí mật chứa vũ khí Quận 10", 
-        coords: [10.772163272961915, 106.67506828852984], 
-        link: "https://cantho.gov.vn",
-        desc: "Giới thiệu về cuộc đời và sự nghiệp của Chủ tịch Tôn Đức Thắng."
+        coords: [10.772163272961915, 106.67506828852984]
       },
       {
         name: "Khu di tích lịch sử Láng Le Bàu Cò", 
-        coords: [10.721473986587876, 106.53618675139995], 
-        link: "https://cantho.gov.vn",
-        desc: "Giới thiệu về cuộc đời và sự nghiệp của Chủ tịch Tôn Đức Thắng."
+        coords: [10.721473986587876, 106.53618675139995]
       },
       {
         name: "Khu di tích Ngã Ba Giồng", 
-        coords: [10.868583226580597, 106.5585536244197], 
-        link: "https://cantho.gov.vn",
-        desc: "Giới thiệu về cuộc đời và sự nghiệp của Chủ tịch Tôn Đức Thắng."
+        coords: [10.868583226580597, 106.5585536244197]
       },
       {
         name: "Bảo tàng Áo Dài", 
-        coords: [10.808667990322046, 106.85301395165877], 
-        link: "https://cantho.gov.vn",
-        desc: "Giới thiệu về cuộc đời và sự nghiệp của Chủ tịch Tôn Đức Thắng."
+        coords: [10.808667990322046, 106.85301395165877]
       },
       {
         name: "Bảo tàng Bưu điện Sài Gòn", 
-        coords: [10.780092060863971, 106.6999556397634], 
-        link: "https://cantho.gov.vn",
-        desc: "Giới thiệu về cuộc đời và sự nghiệp của Chủ tịch Tôn Đức Thắng."
+        coords: [10.780092060863971, 106.6999556397634]
+      },
+      {
+        name: "Bảo tàng Phòng không - Không quân", 
+        coords: [21.000448737227405, 105.82942966696757]
+      },
+      {
+        name: "Bảo Tàng Không Quân Phía Nam", 
+        coords: [11.078720524115795, 106.54636115443571]
+      },
+      {
+        name: "Bảo tàng Nghệ Thuật Đương Đại", 
+        coords: [10.80601467214361, 106.74336761075736]
+      },
+      {
+        name: "Bảo tàng Địa chất Việt Nam", 
+        coords: [10.78510362982867, 106.70781058023714]
+      },
+      {
+        name: "Bảo tàng Mỹ thuật Việt Nam", 
+        coords: [21.03082443726916, 105.8370303516235]
+      },
+      {
+        name: "Bảo tàng Lực lượng Tăng - Thiết giáp", 
+        coords: [21.04709216456988, 105.79427960929651]
+      },
+      {
+        name: "Bảo tàng Chiến thắng B-52", 
+        coords: [21.03515456098533, 105.82621021114987]
+      },
+      {
+        name: "Bảo tàng Lịch sử Quân sự Việt Nam", 
+        coords: [21.01051655343437, 105.75418932649416]
       }
     ];
 
@@ -298,11 +295,7 @@
     var markers = [];
 
     locations.forEach(function(loc) {
-      var popupContent = `
-        <b>${loc.name}</b><br>
-        <i>${loc.desc}</i><br>
-        <a href="${loc.link}" target="_blank">Xem chi tiết</a>
-      `;
+      var popupContent = `<b>${loc.name}</b><br><i>${loc.desc}</i>`;
       var marker = L.marker(loc.coords, {icon: vietnamIcon}).bindPopup(popupContent).addTo(map);
       markers.push({ name: loc.name, coords: loc.coords, marker: marker });
     });
@@ -343,7 +336,6 @@
       position: 'topleft',
       strings: { title: "Xem vị trí hiện tại" }
     }).addTo(map);
-
   </script>
 </body>
 </html>
