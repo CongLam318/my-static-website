@@ -93,7 +93,9 @@
     .sidebar {
       width: 30%;
       background: #efede5;
-      padding: 20px;
+      padding-left: 20px;
+      padding-right: 20px;
+      padding-bottom: 20px;
       overflow-y: auto;
       border-right: 1px solid #ccc;
     }
@@ -137,16 +139,23 @@
       
      </div>
       <div class="sidebar">
-        <h2 style="text-align:center; padding-top:20px; font-size: 30px; color: #da251d;">
-            GIỚI THIỆU</h2>
-        <p style="word-spacing: 5px;">
+        <div style="text-align:center; padding-bottom:10px; font-size: 30px; color: #da251d;font-weight:bolder;">
+            CÔNG TRÌNH THANH NIÊN: “HÀNH TRÌNH TỪ BẢO TÀNG ĐẾN BẢO TÀNG"</div>
+        <p style="word-spacing: 5px; text-indent: 25px;">
+            Mừng 80 năm Ngày Quốc khánh (02/9/1945 - 02/9/2025) – dấu mốc thiêng liêng khi Chủ tịch Hồ Chí Minh đọc Tuyên ngôn Độc lập, Đoàn – Hội Khoa Địa, Trường Đại học Khoa học tự nhiên, ĐHQG-HCM chất thực hiện công trình thanh niên “Hành trình từ bảo tàng đến bảo tàng”.
+        </p>
+        <p style="word-spacing: 5px; text-indent: 25px;">
+          Công trình được triển khai dưới dạng bản đồ số trực quan, quy tụ hệ thống các bảo tàng tại TP. Hồ Chí Minh, giúp đoàn viên, sinh viên và cộng đồng dễ dàng tìm kiếm, khám phá và trải nghiệm những không gian văn hóa – lịch sử đặc sắc của thành phố.
           Hành trình từ bảo tàng đến bảo tàng" không chỉ là một trang web đơn thuần mà là một nền tảng giáo dục số đa chiều và đầy cảm hứng, được thiết kế tinh tế dành riêng cho cộng đồng sinh viên năng động tại Thành phố Hồ Chí Minh.
         </p>
-        <p style="word-spacing: 5px;">
+        <p style="word-spacing: 5px; text-indent: 25px;">
           Sứ mệnh của chúng tôi là khơi dậy và nuôi dưỡng niềm đam mê bất tận đối với lịch sử, văn hóa dân tộc, biến hành trình tìm hiểu các bảo tàng và di tích trên khắp TP.HCM và cả nước trở thành một trải nghiệm tương tác, sống động và mang tính cá nhân hóa sâu sắc.
         </p>
-        <p style="word-spacing: 5px;">
+        <p style="word-spacing: 5px; text-indent: 25px;">
           Đây là không gian nơi mỗi sinh viên không chỉ tra cứu thông tin mà còn có thể chia sẻ cảm nhận, hình ảnh, và thậm chí đề xuất những địa điểm mới, cùng nhau làm phong phú thêm bản đồ di sản chung của Việt Nam.
+        </p>
+        <p style="word-spacing: 5px;font-weight: bold;">
+           Mọi thắc mắc liên hệ: dk.dc.hcmus@gmail.com/lch.dc.hcmus@gmail.com
         </p>
       </div>
     <!-- Bản đồ -->
@@ -187,119 +196,173 @@
     var locations = [
      {
         name: "Bảo tàng Chứng tích Chiến tranh", 
-        coords: [10.77968976110387, 106.69209159558208]
+        coords: [10.77968976110387, 106.69209159558208],
+        link: "https://baotangchungtichchientranh.vn/",
+        Image:"https://i.pinimg.com/736x/aa/5c/eb/aa5cebb1ed4837b3bb3c8d8044889f0c.jpg"
       },
       {
         name: "Bảo tàng Thành phố Hồ Chí Minh", 
-        coords: [10.776229080283908, 106.699561764892]
+        coords: [10.776229080283908, 106.699561764892],
+        link:"https://hcmc-museum.edu.vn/",
+        Image:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSBXXTXFSbURacZ-cKsUlVmlbF5pNKp_SOVuw&s"
       },
       {
         name: "Bảo tàng Mỹ thuật TP.HCM", 
-        coords: [10.770269145655245, 106.69926079743563]
+        coords: [10.770269145655245, 106.69926079743563],
+        link: "http://baotangmythuattphcm.com.vn/",
+        Image:"https://i.pinimg.com/1200x/cd/75/54/cd7554f647b35326c7750fcf2a553fed.jpg"
       },
       {
         name: "Bảo tàng Tôn Đức Thắng", 
-        coords: [10.777425204072086, 106.70658398023713]
+        coords: [10.777425204072086, 106.70658398023713],
+        link: "https://baotangtonducthang.vn/",
+        Image: "https://i.pinimg.com/736x/b9/a6/67/b9a667b44b6eaf273b26b86e82e2ecce.jpg"
       },
       {
         name: "Bảo tàng Lịch sử Thành phố Hồ Chí Minh", 
-        coords: [10.78842816206161, 106.70450576086436]
+        coords: [10.78842816206161, 106.70450576086436],
+        link:"https://www.baotanglichsutphcm.com.vn/",
+        Image:"https://i.pinimg.com/1200x/b6/d5/db/b6d5dbfdac8246fe57d1c56a30fb3d84.jpg"
       },
-       {
+      {
         name: "Dinh Độc Lập", 
-        coords: [10.77724713978662, 106.69529136674576]
+        coords: [10.77724713978662, 106.69529136674576],
+        link:"https://www.dinhdoclap.gov.vn/",
+        Image:"https://i.pinimg.com/1200x/81/62/b0/8162b0ef78831104c1517c0d50ebb0b3.jpg"
       },
       {
         name: "Bến Nhà Rồng (Bảo tàng Hồ Chí Minh)", 
-        coords: [10.768391988013375, 106.7068649820907]
+        coords: [10.768391988013375, 106.7068649820907],
+        link: "https://bennharong.hochiminh.vn/",
+        Image: "https://i.pinimg.com/736x/77/81/44/7781442f5523c129567c50ccc2b36119.jpg"
       },
       {
         name: "Bảo tàng Phụ nữ Nam bộ", 
-        coords: [10.783870997980646, 106.68763269558207]
+        coords: [10.783870997980646, 106.68763269558207],
+        link: "https://baotangphunu.com/",
+        Image: "https://baotangphunu.com/wp-content/uploads/2022/08/slide-1-1400x785.jpg"
       },
       {
         name: "Bảo tàng Y học Cổ truyền Việt Nam", 
-        coords: [10.776435240469658, 106.67191968209079]
+        coords: [10.776435240469658, 106.67191968209079],
+        link:"https://fitomuseum.com.vn/bao-tang-y-hoc-co-truyen-viet-nam/",
+        Image: "https://i.pinimg.com/1200x/45/3d/6e/453d6e6545ee7e8598a3d98c0da5c577.jpg"
       },
       {
         name: "Bảo tàng Áo Dài", 
-        coords: [10.808667990322046, 106.85301395165877]
+        coords: [10.808667990322046, 106.85301395165877],
+        link: "https://baotangaodai.com.vn/",
+        Image: "https://i.pinimg.com/736x/80/2c/24/802c240634b1c043a01fe2f71ee883f1.jpg"
       },
       {
-        name: "Bảo tàng Quân khu 7", 
-        coords: [10.801150288054043, 106.66639517705971]
+        name: "Bảo tàng Lực lượng Vũ trang miền Đông Nam Bộ", 
+        coords: [10.801150288054043, 106.66639517705971],
+        link:"https://mia.vn/cam-nang-du-lich/bao-tang-luc-luong-vu-trang-mien-dong-nam-bo-18234",
+        Image:"https://mia.vn/media/uploads/blog-du-lich/bao-tang-luc-luong-vu-trang-mien-dong-nam-bo-1-1744534352.jpg"
       },
       {
         name: "Bảo tàng Sâm Ngọc Linh", 
-        coords: [10.784786290808798, 106.62184259372839]
+        coords: [10.784786290808798, 106.62184259372839],
+        link:"https://vnexpress.net/bao-tang-sam-ngoc-linh-o-sai-gon-4020553.html",
+        Image:" https://vcdn1-vnexpress.vnecdn.net/2019/12/01/CG2A2055-1575190928.jpg?w=1200&h=0&q=100&dpr=2&fit=crop&s=ouR-m3YGvMvO8DkOeu0r3Q"
       },
       {
         name: "Địa đạo Củ Chi", 
-        coords: [11.14156101510885, 106.46217581093259]
+        coords: [11.14156101510885, 106.46217581093259],
+        link:"http://diadaocuchi.com.vn/",
+        Image:"https://i.pinimg.com/1200x/80/a3/87/80a3878def4763da35e06cf8a09978ec.jpg"
       },
       {
         name: "Hầm bí mật chứa vũ khí Quận 10", 
-        coords: [10.772163272961915, 106.67506828852984]
+        coords: [10.772163272961915, 106.67506828852984],
+        link: "https://vietnam.vnanet.vn/vietnamese/tin-tuc/ham-bi-mat-chua-vu-khi-o-tp-ho-chi-minh-71906.html"
       },
       {
         name: "Khu di tích lịch sử Láng Le Bàu Cò", 
-        coords: [10.721473986587876, 106.53618675139995]
+        coords: [10.721473986587876, 106.53618675139995],
+        link:"https://luhanhvietnam.com.vn/du-lich/kinh-nghiem-di-khu-di-tich-lang-le-bau-co.html",
+        Image:"https://luhanhvietnam.com.vn/du-lich/vnt_upload/news/10_2022/khu-di-tich-lang-le-bau-co.jpg"
       },
       {
         name: "Khu di tích Ngã Ba Giồng", 
-        coords: [10.868583226580597, 106.5585536244197]
-      },
-      {
-        name: "Bảo tàng Áo Dài", 
-        coords: [10.808667990322046, 106.85301395165877]
+        coords: [10.868583226580597, 106.5585536244197],
+        link:"https://sodulich.hochiminhcity.gov.vn/Home/moduleId/564/id/6139/ma/HCCDL/controller/HanhChinhDuKhach/action/D",
+        Image:"https://sodulich.hochiminhcity.gov.vn/UPLOADS/TinTuc/CKUploadIMG/2023/9/202309130935101107.jpg"
       },
       {
         name: "Bảo tàng Bưu điện Sài Gòn", 
-        coords: [10.780092060863971, 106.6999556397634]
+        coords: [10.780092060863971, 106.6999556397634],
+        link:"https://vinwonders.com/vi/wonderpedia/news/buu-dien-trung-tam-sai-gon/",
+        Image:"https://i.pinimg.com/1200x/ef/78/37/ef78370fd9db0d29245b16444393baf6.jpg"
       },
       {
         name: "Bảo tàng Phòng không - Không quân", 
-        coords: [21.000448737227405, 105.82942966696757]
+        coords: [21.000448737227405, 105.82942966696757],
+        link:"https://mia.vn/cam-nang-du-lich/bao-tang-phong-khong-khong-quan-13307",
+        Image:"https://mia.vn/media/uploads/blog-du-lich/bao-tang-phong-khong-khong-quan-1-1699631565.jpg"
       },
       {
         name: "Bảo Tàng Không Quân Phía Nam", 
-        coords: [11.078720524115795, 106.54636115443571]
+        coords: [11.078720524115795, 106.54636115443571],
+        link:"https://www.xanhsm.com/news/bao-tang-khong-quan-phia-nam",
+        Image:"https://cdn.xanhsm.com/2024/12/73c5b24c-bao-tang-khong-quan-phia-nam-3.jpg"
       },
       {
         name: "Bảo tàng Nghệ Thuật Đương Đại", 
-        coords: [10.80601467214361, 106.74336761075736]
+        coords: [10.80601467214361, 106.74336761075736],
+        link:"https://mia.vn/cam-nang-du-lich/the-factory-contemporary-arts-centre-12508",
+        Image:"https://mia.vn/media/uploads/blog-du-lich/the-factory-01-1705128882.jpg"
       },
       {
         name: "Bảo tàng Địa chất Việt Nam", 
-        coords: [10.78510362982867, 106.70781058023714]
+        coords: [10.78510362982867, 106.70781058023714],
+        link:"https://mia.vn/cam-nang-du-lich/bao-tang-dia-chat-viet-nam-1667",
+        Image:"https://mia.vn/media/uploads/blog-du-lich/bao-tang-dia-chat-viet-nam-1726037604.jpg"
       },
       {
         name: "Bảo tàng Mỹ thuật Việt Nam", 
-        coords: [21.03082443726916, 105.8370303516235]
+        coords: [21.03082443726916, 105.8370303516235],
+        link:"https://vnfam.vn/vi",
+        Image:"https://vnfam.vn/static/media/banner-web5.a0cee2ed.jpg"
       },
       {
         name: "Bảo tàng Lực lượng Tăng - Thiết giáp", 
-        coords: [21.04709216456988, 105.79427960929651]
+        coords: [21.04709216456988, 105.79427960929651],
+        link:"https://mia.vn/cam-nang-du-lich/bao-tang-tang-thiet-giap-18252",
+        Image:"https://mia.vn/media/uploads/blog-du-lich/bao-tang-tang-thiet-giap-1744590958.jpg"
       },
       {
         name: "Bảo tàng Chiến thắng B-52", 
-        coords: [21.03515456098533, 105.82621021114987]
+        coords: [21.03515456098533, 105.82621021114987],
+        link:"https://www.xanhsm.com/news/bao-tang-chien-thang-b-52-ha-noi",
+        Image:"https://cdn.xanhsm.com/2025/01/99f75d03-bao-tang-chien-thang-b52-4.jpg"
       },
       {
         name: "Bảo tàng Lịch sử Quân sự Việt Nam", 
-        coords: [21.01051655343437, 105.75418932649416]
+        coords: [21.01051655343437, 105.75418932649416],
+        link:"https://xaydungchinhsach.chinhphu.vn/tu-1-11-bao-tang-lich-su-quan-su-viet-nam-vi-tri-moi-mo-cua-don-khach-mien-phi-tham-quan-119241004184508454.htm",
+        Image:"https://i.pinimg.com/1200x/84/3e/16/843e1644181e877643a2bb51434594ea.jpg"
       }
     ];
 
-    // Lưu marker vào mảng
-    var markers = [];
+   var markers = [];
 
     locations.forEach(function(loc) {
-      var popupContent = `<b>${loc.name}</b><br><i>${loc.desc}</i>`;
-      var marker = L.marker(loc.coords, {icon: vietnamIcon}).bindPopup(popupContent).addTo(map);
+      var popupContent = `
+        <div style="text-align:center;">
+          <b>${loc.name}</b><br>
+          ${loc.Image ? `<img src="${loc.Image}" alt="${loc.name}" style="width:150px; border-radius:8px; margin:5px 0;">` : ""}
+          <br>
+          ${loc.link ? `<a href="${loc.link}" target="_blank">Xem chi tiết</a>` : ""}
+        </div>
+      `;
+
+      var marker = L.marker(loc.coords, {icon: vietnamIcon})
+                    .bindPopup(popupContent)
+                    .addTo(map);
+
       markers.push({ name: loc.name, coords: loc.coords, marker: marker });
     });
-
     // Tìm kiếm
     const searchInput = document.getElementById("searchBox");
     const searchResults = document.getElementById("searchResults");
