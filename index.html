@@ -16,6 +16,9 @@
   <link rel="stylesheet" href="https://unpkg.com/leaflet.locatecontrol/dist/L.Control.Locate.min.css" />
   <script src="https://unpkg.com/leaflet.locatecontrol/dist/L.Control.Locate.min.js"></script>
 
+  <link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine/dist/leaflet-routing-machine.css" />
+  <script src="https://unpkg.com/leaflet-routing-machine/dist/leaflet-routing-machine.js"></script>
+
   <style>
     body {
       margin: 0;
@@ -43,7 +46,7 @@
       justify-content: center;
       align-items: center;
       padding: 10px;
-      background: #efede5;
+      background: #fff8dc;
       box-shadow: 0 2px 4px rgba(0,0,0,0.1);
       position: relative;
       z-index: 1500;
@@ -92,7 +95,7 @@
     /* Sidebar cố định bên trái */
     .sidebar {
       width: 30%;
-      background: #efede5;
+      background: #fff8dc;
       padding: 20px;
       overflow-y: auto;
       border-right: 1px solid #ccc;
@@ -102,6 +105,155 @@
     #map {
       flex: 1;
     }
+    #chatbox {
+      position: absolute;
+      bottom: 20px;
+      right: 20px;
+      width: 300px;
+      max-height: 400px;
+      background: white;
+      border: 2px solid #ccc;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0px 4px 12px rgba(0,0,0,0.2);
+      display: flex;
+      flex-direction: column;
+      z-index: 1000;
+    }
+
+    #chat-header {
+      background: #da251d;
+      color: white;
+      padding: 10px;
+      cursor: pointer;
+      text-align: center;
+      font-weight: bold;
+    }
+
+    #chat-body {
+      padding: 10px;
+      display: none; /* Mặc định ẩn */
+    }
+
+    #chat-widget {
+      position: fixed;
+      bottom: 70px; 
+      right: 10px; /* dịch sang trái để nằm cạnh nút "Gợi ý hành trình" */
+      z-index: 10000;
+      font-family: Arial, sans-serif;
+    }
+
+    /* Nút bong bóng */
+    #chat-toggle {
+      background: #b71c1c;
+      color: white;
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      text-align: center;
+      line-height: 50px;
+      font-size: 22px;
+      cursor: pointer;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+    }
+
+    /* Khung chat */
+    #chat-boxfaq {
+      display: none;
+      flex-direction: column;
+      width: 320px;
+      height: 420px;
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+      overflow: hidden;
+      position: absolute;
+      bottom: 60px;
+      right: 0;
+    }
+
+    /* Header */
+    #chat-headerfaq {
+      background: #b71c1c;
+      color: white;
+      padding: 12px;
+      font-weight: bold;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    #chat-close {
+      cursor: pointer;
+    }
+
+    /* Messages */
+    #chat-messages {
+      flex: 1;
+      padding: 10px;
+      overflow-y: auto;
+      font-size: 14px;
+    }
+
+    .bot-message, .user-message {
+      margin: 8px 0;
+      padding: 8px 12px;
+      border-radius: 12px;
+      max-width: 75%;
+    }
+
+    .bot-message {
+      background: #f1f0f0;
+      align-self: flex-start;
+      width: 300px;
+    }
+
+    .user-message {
+      background: #b71c1c;
+      color: white;
+      align-self: flex-end;
+    }
+
+    /* Input */
+    #chat-input-area {
+      display: flex;
+      border-top: 1px solid #ddd;
+    }
+
+    #chat-input {
+      flex: 1;
+      padding: 10px;
+      border: none;
+      outline: none;
+    }
+
+    #chat-send {
+      background: #b71c1c;
+      color: white;
+      border: none;
+      padding: 10px 14px;
+      cursor: pointer;
+    }
+    .faq-suggestions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  padding: 5px;
+}
+
+.faq-btn {
+  background: #f1f1f1;
+  border: none;
+  border-radius: 12px;
+  padding: 5px 10px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.faq-btn:hover {
+  background: #dcdcdc;
+}
+
 
     /* Responsive cho điện thoại */
     @media (max-width: 768px) {
@@ -152,11 +304,113 @@
            Mọi thắc mắc liên hệ: dk.dc.hcmus@gmail.com/lch.dc.hcmus@gmail.com
         </p>
       </div>
-    <!-- Bản đồ -->
+     <!-- Bản đồ -->
     <div id="map"></div>
+    <!-- Gợi ý lộ trình -->
+    <div id="chatbox">
+    <div id="chat-header">Gợi ý hành trình</div>
+      <div id="chat-body">
+        <div class="bot-message">Xin chào! Đây là một số gợi ý lộ trình dành cho bạn.</div>
+        <button onclick="showRoute(1)" style="background-color: #da251d;color: #ccc;">Lộ trình 1</button>
+        <button onclick="showRoute(2)" style="background-color: #da251d;color: #ccc;">Lộ trình 2</button>
+        <button onclick="showRoute(3)" style="background-color: #da251d;color: #ccc;">Lộ trình 3</button>
+      </div>
+    </div>
+    <!-- Chat Box FAQ -->
+    <div id="chat-widget">
+    <div id="chat-toggle">💬</div>
+    <div id="chat-boxfaq">
+      <div id="chat-headerfaq">Hỏi đáp Bảo tàng
+        <span id="chat-close">✖</span>
+      </div>
+      <div id="chat-messages">
+        <div class="bot-message">Xin chào 👋! Bạn muốn tìm hiểu về bảo tàng nào?</div>
+      </div>
+      <!-- Câu hỏi gợi ý -->
+      <div id="faq-suggestions" class="faq-suggestions">
+        <button class="faq-btn">giá vé</button>
+        <button class="faq-btn">giờ mở cửa</button>
+        <button class="faq-btn">nổi bật</button>
+        <button class="faq-btn">miễn phí</button>
+      </div>
+      <div id="chat-input-area">
+        <input type="text" id="chat-input" placeholder="Nhập tin nhắn..."/>
+        <button id="chat-send">➤</button>
+      </div>
+    </div>
   </div>
-
   <script>
+   // Bắt sự kiện click cho các câu hỏi gợi ý
+    document.querySelectorAll(".faq-btn").forEach(btn => {
+      btn.addEventListener("click", () => {
+        chatInput.value = btn.textContent; // điền câu hỏi vào input
+        sendMessage(); // tự động gửi
+      });
+    });
+    // Danh sách FAQ (câu hỏi - trả lời)
+    const faqResponses = {
+      "giá vé": "Các bảo tàng lớn thường có vé khoảng 20k–40k, sinh viên có thể được giảm giá.",
+      "giờ mở cửa": "Đa số bảo tàng mở từ 8h sáng đến 17h chiều, nghỉ trưa từ 12h–13h.",
+      "nổi bật": "Bảo tàng Chứng tích Chiến tranh và Bảo tàng Hồ Chí Minh là nổi bật nhất.",
+      "miễn phí": "Một số bảo tàng nhỏ mở cửa miễn phí, nhưng đa số có thu vé.",
+    };
+
+    // DOM
+    const chatToggle = document.getElementById("chat-toggle");
+    const chatBox = document.getElementById("chat-boxfaq");
+    const chatClose = document.getElementById("chat-close");
+    const chatMessages = document.getElementById("chat-messages");
+    const chatInput = document.getElementById("chat-input");
+    const chatSend = document.getElementById("chat-send");
+
+    // Mở chat
+    chatToggle.addEventListener("click", () => {
+      chatBox.style.display = "flex";
+      chatToggle.style.display = "none";
+    });
+
+    // Đóng chat
+    chatClose.addEventListener("click", () => {
+      chatBox.style.display = "none";
+      chatToggle.style.display = "block";
+    });
+
+    // Gửi tin nhắn
+    chatSend.addEventListener("click", sendMessage);
+    chatInput.addEventListener("keypress", (e) => {
+      if (e.key === "Enter") sendMessage();
+    });
+
+    function sendMessage() {
+      let text = chatInput.value.trim().toLowerCase();
+      if (text === "") return;
+      
+      // Tin nhắn user
+      let userMsg = document.createElement("div");
+      userMsg.className = "user-message";
+      userMsg.textContent = text;
+      chatMessages.appendChild(userMsg);
+      chatInput.value = "";
+      chatMessages.scrollTop = chatMessages.scrollHeight;
+
+      // Bot trả lời
+      setTimeout(() => {
+        let botMsg = document.createElement("div");
+        botMsg.className = "bot-message";
+        if (faqResponses[text]) {
+          botMsg.textContent = faqResponses[text];
+        } else {
+          botMsg.textContent = "Xin lỗi, mình chưa có thông tin về '" + text + "'.";
+        }
+        chatMessages.appendChild(botMsg);
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+      }, 700);
+    }
+    //nút lộ trình
+    document.getElementById("chat-header").addEventListener("click", function() {
+    const body = document.getElementById("chat-body");
+     body.style.display = (body.style.display === "block") ? "none" : "block";
+    });
     // Khởi tạo bản đồ
     var map = L.map('map', {
       fullscreenControl: true
@@ -178,6 +432,50 @@
     };
     L.control.layers(baseMaps).addTo(map);
 
+  var routingControl; // để lưu tuyến đường hiện tại
+  // Hàm vẽ lộ trình
+  function showRoute(locations) {
+    // Xoá route cũ
+    if (routingControl) {
+      map.removeControl(routingControl);
+    }
+    // Vẽ route mới
+    routingControl = L.Routing.control({
+      waypoints: locations.map(loc => L.latLng(loc[0], loc[1])),
+      lineOptions: {
+        styles: [{color: 'red', weight: 4}]
+      },
+      createMarker: function(i, waypoint, n) {
+        return L.marker(waypoint.latLng).bindPopup("Bảo tàng " + (i+1));
+      },
+      addWaypoints: false,   // không cho thêm điểm tay
+      routeWhileDragging: false
+    }).addTo(map);
+  }
+  // Khi click vào chatbox
+  document.getElementById("chat-body").addEventListener("click", function(e) {
+    if (e.target.innerText.includes("Lộ trình 1")) {
+      showRoute([
+        [10.77724713978662, 106.69529136674576], // Dinh độc lập
+        [10.78842816206161, 106.70450576086436], // Bảo tàng Lịch sử VN
+        [10.777425204072086, 106.70658398023713]  // Bảo tàng Tôn Đức Thắng
+      ]);
+    }
+    if (e.target.innerText.includes("Lộ trình 2")) {
+      showRoute([
+        [10.77968976110387, 106.69209159558208], // Bảo tàng Chứng tích Chiến tranh
+        [10.776229080283908, 106.699561764892], // Bảo tàng TPHCM
+        [10.770269145655245, 106.69926079743563]  // Bảo tàng Mỹ Thuật
+      ]);
+    }
+    if (e.target.innerText.includes("Lộ trình 3")) {
+      showRoute([
+        [10.78510362982867, 106.70781058023714], // Bảo tàng Địa chất
+        [10.780092060863971, 106.6999556397634], // Bưu điện thành phố
+        [10.77724713978662, 106.69529136674576]  // Dinh độc lập
+      ]);
+    }
+  });
     // Icon Việt Nam
     var vietnamIcon = L.icon({
       iconUrl: 'vietnam.png',
