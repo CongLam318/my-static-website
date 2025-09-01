@@ -46,7 +46,7 @@
       justify-content: center;
       align-items: center;
       padding: 10px;
-      background: #fff8dc;
+      background: #ffeba6;
       box-shadow: 0 2px 4px rgba(0,0,0,0.1);
       position: relative;
       z-index: 1500;
@@ -95,7 +95,7 @@
     /* Sidebar cố định bên trái */
     .sidebar {
       width: 30%;
-      background: #fff8dc;
+      background:#ffeba6;
       padding: 20px;
       overflow-y: auto;
       border-right: 1px solid #ccc;
@@ -105,36 +105,6 @@
     #map {
       flex: 1;
     }
-    #chatbox {
-      position: absolute;
-      bottom: 20px;
-      right: 20px;
-      width: 300px;
-      max-height: 400px;
-      background: white;
-      border: 2px solid #ccc;
-      border-radius: 10px;
-      overflow: hidden;
-      box-shadow: 0px 4px 12px rgba(0,0,0,0.2);
-      display: flex;
-      flex-direction: column;
-      z-index: 1000;
-    }
-
-    #chat-header {
-      background: #da251d;
-      color: white;
-      padding: 10px;
-      cursor: pointer;
-      text-align: center;
-      font-weight: bold;
-    }
-
-    #chat-body {
-      padding: 10px;
-      display: none; /* Mặc định ẩn */
-    }
-
     #chat-widget {
       position: fixed;
       bottom: 70px; 
@@ -286,36 +256,28 @@
   <div class="main">
     <!-- Sidebar giới thiệu -->
      <div class = "tab ">
-      
      </div>
       <div class="sidebar">
+        <div style="text-align:center;font-size: 30px; color: #da251d;font-weight:bolder;">
+            CÔNG TRÌNH THANH NIÊN: TUỔI TRẺ ĐỊA CHẤT
+        </div>
         <div style="text-align:center; padding-bottom:10px; font-size: 30px; color: #da251d;font-weight:bolder;">
-            CÔNG TRÌNH THANH NIÊN: “HÀNH TRÌNH TỪ BẢO TÀNG ĐẾN BẢO TÀNG"</div>
-        <p style="word-spacing: 5px; text-indent: 25px; text-align: justify;">
-            Mừng 80 năm Ngày Quốc khánh (02/9/1945 - 02/9/2025) – dấu mốc thiêng liêng khi Chủ tịch Hồ Chí Minh đọc Tuyên ngôn Độc lập, Đoàn – Hội Khoa Địa chất, Trường Đại học Khoa học tự nhiên, ĐHQG-HCM thực hiện công trình thanh niên “Hành trình từ bảo tàng đến bảo tàng”.
+         VIẾT TIẾP TRANG SỬ VÀNG </div>
+        <p style="word-spacing: 5px; text-indent: 25px; text-align: justify;color: #da251d;font-weight:bolder;">
+            Mừng 80 năm Ngày Quốc khánh (02/9/1945 - 02/9/2025) – dấu mốc thiêng liêng khi Chủ tịch Hồ Chí Minh đọc Tuyên ngôn Độc lập, Đoàn – Hội Khoa Địa chất, Trường Đại học Khoa học tự nhiên, ĐHQG-HCM thực hiện công trình thanh niên: “Tuổi trẻ Địa chất - Viết tiếp trang sử vàng”.
         </p>
-        <p style="word-spacing: 5px; text-indent: 25px;text-align: justify;">
+        <p style="word-spacing: 5px; text-indent: 25px;text-align: justify;color: #da251d;font-weight:bolder;">
             Công trình được triển khai dưới dạng bản đồ số trực quan, quy tụ hệ thống các bảo tàng tại TP. Hồ Chí Minh, giúp đoàn viên, sinh viên và cộng đồng dễ dàng tìm kiếm, khám phá và trải nghiệm những không gian văn hóa – lịch sử đặc sắc của thành phố.
         </p>
-        <p style="word-spacing: 5px; text-indent: 25px;">
+        <p style="word-spacing: 5px; text-indent: 25px;color: #da251d;font-weight:bolder;">
             Không chỉ mang ý nghĩa ứng dụng, công trình còn là dấu ấn tuổi trẻ Địa chất – lan tỏa niềm tự hào dân tộc, nuôi dưỡng tình yêu lịch sử và khơi dậy tinh thần trách nhiệm trong việc gìn giữ, phát huy những giá trị truyền thống hào hùng của dân tộc Việt Nam.
         </p>
-        <p style="word-spacing: 5px;font-weight: bold;">
+        <p style="word-spacing: 5px;font-weight: bold;color: #da251d;">
            Mọi thắc mắc liên hệ: dk.dc.hcmus@gmail.com/lch.dc.hcmus@gmail.com
         </p>
       </div>
      <!-- Bản đồ -->
     <div id="map"></div>
-    <!-- Gợi ý lộ trình -->
-    <div id="chatbox">
-    <div id="chat-header">Gợi ý hành trình</div>
-      <div id="chat-body">
-        <div class="bot-message">Xin chào! Đây là một số gợi ý lộ trình dành cho bạn.</div>
-        <button onclick="showRoute(1)" style="background-color: #da251d;color: #ccc;">Lộ trình 1</button>
-        <button onclick="showRoute(2)" style="background-color: #da251d;color: #ccc;">Lộ trình 2</button>
-        <button onclick="showRoute(3)" style="background-color: #da251d;color: #ccc;">Lộ trình 3</button>
-      </div>
-    </div>
     <!-- Chat Box FAQ -->
     <div id="chat-widget">
     <div id="chat-toggle">💬</div>
@@ -330,8 +292,8 @@
       <div id="faq-suggestions" class="faq-suggestions">
         <button class="faq-btn">giá vé</button>
         <button class="faq-btn">giờ mở cửa</button>
-        <button class="faq-btn">nổi bật</button>
-        <button class="faq-btn">miễn phí</button>
+        <button class="faq-btn">sinh viên, học sinh có giảm giá không?</button>
+        <button class="faq-btn">có được chụp ảnh không?</button>
       </div>
       <div id="chat-input-area">
         <input type="text" id="chat-input" placeholder="Nhập tin nhắn..."/>
@@ -348,73 +310,108 @@
       });
     });
     // Danh sách FAQ (câu hỏi - trả lời)
-    const faqResponses = {
-      "giá vé": "Các bảo tàng lớn thường có vé khoảng 20k–40k, sinh viên có thể được giảm giá.",
-      "giờ mở cửa": "Đa số bảo tàng mở từ 8h sáng đến 17h chiều, nghỉ trưa từ 12h–13h.",
-      "nổi bật": "Bảo tàng Chứng tích Chiến tranh và Bảo tàng Hồ Chí Minh là nổi bật nhất.",
-      "miễn phí": "Một số bảo tàng nhỏ mở cửa miễn phí, nhưng đa số có thu vé.",
-    };
+const faqResponses = {
+  "giá vé": "Các bảo tàng lớn thường có vé khoảng 20k–40k, sinh viên có thể được giảm giá.",
+  "giờ mở cửa": "Đa số bảo tàng mở từ 8h sáng đến 17h chiều, nghỉ trưa từ 12h–13h.",
+  "sinh viên, học sinh có giảm giá không?": "Chỉ cần mang theo thẻ sinh viên/học sinh.",
+  "có được chụp ảnh không?": "Hầu hết bảo tàng cho phép chụp ảnh, nhưng hạn chế dùng flash.",
+  "vé trẻ em": "Trẻ dưới 6 tuổi miễn phí, từ 6–15 tuổi mua vé rẻ hơn.",
+  "vé khách nước ngoài": "Thường cao hơn khách Việt khoảng 2–3 lần.",
+  "mua vé online": "Một số bảo tàng lớn có bán online, còn lại mua trực tiếp.",
+  "hạn sử dụng vé": "Vé chỉ dùng trong ngày, một lần vào.",
+  "gói vé nhiều bảo tàng": "Chưa phổ biến, thường mua vé riêng từng nơi.",
+  "giờ mở cửa": "Thường 7h30–17h00, có nơi nghỉ trưa 11h30–13h30.",
+  "ngày lễ tết": "Phần lớn vẫn mở, riêng Lăng Bác đóng dịp Tết Nguyên đán.",
+  "ngày đông khách": "Thứ 7, Chủ nhật và các dịp lễ thường đông hơn.",
+  "nên đi buổi nào": "Buổi sáng mát và ít đông, thuận tiện tham quan.",
+  "thời gian tham quan": "Trung bình 1–2 tiếng cho mỗi bảo tàng.",
+  "giới hạn thời gian": "Không, chỉ cần tham quan trong giờ mở cửa.",
+  "khoảng cách bảo tàng": "Một số ở trung tâm (Q.1 HCM, Ba Đình HN) có thể đi bộ.",
+  "xe buýt": "Có tuyến buýt dừng gần hầu hết bảo tàng lớn.",
+  "bãi giữ xe": "Có bãi gửi xe máy và ô tô, có thu phí.",
+  "grab taxi": "Grab/taxi rất thuận tiện để di chuyển đến bảo tàng.",
+  "tour trọn gói": "Có tour city tour kết hợp nhiều bảo tàng và địa điểm đỏ.",
+  "hướng dẫn viên": "Có cho đoàn, cá nhân cần đăng ký trước.",
+  "audio guide": "Một số bảo tàng lớn có audio guide hoặc app tham quan.",
+  "đồ lưu niệm": "Có quầy bán trong khuôn viên hoặc lối ra.",
+  "nước uống cà phê": "Một số bảo tàng có quầy café, hoặc quán gần đó.",
+  "chỗ nghỉ chân": "Có ghế trong sảnh và khuôn viên.",
+  "nhà vệ sinh": "Có nhà vệ sinh miễn phí trong bảo tàng.",
+  "wifi": "Không phải nơi nào cũng có, nên dùng 4G.",
+  "mang đồ ăn": "Không, thường phải gửi ngoài.",
+  "trang phục": "Cần lịch sự, riêng Lăng Bác cấm quần ngắn, áo sát nách.",
+  "balo túi to": "Thường phải gửi ở quầy giữ đồ.",
+  "chụp ảnh": "Được ở nhiều khu, nhưng có khu cấm chụp.",
+  "lưu ý lăng bác": "Giữ trật tự, không quay phim, ăn mặc chỉnh tề.",
+  "đi theo đoàn": "Nên liên hệ trước khi đi đoàn đông.",
+  "người khuyết tật": "Một số bảo tàng có thang máy và lối đi riêng."
+};
 
-    // DOM
-    const chatToggle = document.getElementById("chat-toggle");
-    const chatBox = document.getElementById("chat-boxfaq");
-    const chatClose = document.getElementById("chat-close");
-    const chatMessages = document.getElementById("chat-messages");
-    const chatInput = document.getElementById("chat-input");
-    const chatSend = document.getElementById("chat-send");
+// DOM
+const chatToggle = document.getElementById("chat-toggle");
+const chatBox = document.getElementById("chat-boxfaq");
+const chatClose = document.getElementById("chat-close");
+const chatMessages = document.getElementById("chat-messages");
+const chatInput = document.getElementById("chat-input");
+const chatSend = document.getElementById("chat-send");
 
-    // Mở chat
-    chatToggle.addEventListener("click", () => {
-      chatBox.style.display = "flex";
-      chatToggle.style.display = "none";
-    });
+// Mở chat
+chatToggle.addEventListener("click", () => {
+  chatBox.style.display = "flex";
+  chatToggle.style.display = "none";
+});
 
-    // Đóng chat
-    chatClose.addEventListener("click", () => {
-      chatBox.style.display = "none";
-      chatToggle.style.display = "block";
-    });
+// Đóng chat
+chatClose.addEventListener("click", () => {
+  chatBox.style.display = "none";
+  chatToggle.style.display = "block";
+});
 
-    // Gửi tin nhắn
-    chatSend.addEventListener("click", sendMessage);
-    chatInput.addEventListener("keypress", (e) => {
-      if (e.key === "Enter") sendMessage();
-    });
+// Gửi tin nhắn
+chatSend.addEventListener("click", sendMessage);
+chatInput.addEventListener("keypress", (e) => {
+  if (e.key === "Enter") sendMessage();
+});
 
-    function sendMessage() {
-      let text = chatInput.value.trim().toLowerCase();
-      if (text === "") return;
-      
-      // Tin nhắn user
-      let userMsg = document.createElement("div");
-      userMsg.className = "user-message";
-      userMsg.textContent = text;
-      chatMessages.appendChild(userMsg);
-      chatInput.value = "";
-      chatMessages.scrollTop = chatMessages.scrollHeight;
+function sendMessage() {
+  let text = chatInput.value.trim().toLowerCase();
+  if (text === "") return;
+  
+  // Tin nhắn user
+  let userMsg = document.createElement("div");
+  userMsg.className = "user-message";
+  userMsg.textContent = text;
+  chatMessages.appendChild(userMsg);
+  chatInput.value = "";
+  chatMessages.scrollTop = chatMessages.scrollHeight;
 
-      // Bot trả lời
-      setTimeout(() => {
-        let botMsg = document.createElement("div");
-        botMsg.className = "bot-message";
-        if (faqResponses[text]) {
-          botMsg.textContent = faqResponses[text];
-        } else {
-          botMsg.textContent = "Xin lỗi, mình chưa có thông tin về '" + text + "'.";
-        }
-        chatMessages.appendChild(botMsg);
-        chatMessages.scrollTop = chatMessages.scrollHeight;
-      }, 700);
+  // Bot trả lời
+  setTimeout(() => {
+    let botMsg = document.createElement("div");
+    botMsg.className = "bot-message";
+
+    // Tìm câu trả lời khớp 1 phần
+    let found = false;
+    for (let key in faqResponses) {
+      if (text.includes(key)) {
+        botMsg.textContent = faqResponses[key];
+        found = true;
+        break;
+      }
     }
-    //nút lộ trình
-    document.getElementById("chat-header").addEventListener("click", function() {
-    const body = document.getElementById("chat-body");
-     body.style.display = (body.style.display === "block") ? "none" : "block";
-    });
+    
+    if (!found) {
+      botMsg.textContent = "Xin lỗi, mình chưa có thông tin về '" + text + "'.";
+    }
+
+    chatMessages.appendChild(botMsg);
+    chatMessages.scrollTop = chatMessages.scrollHeight;
+  }, 700);
+}
     // Khởi tạo bản đồ
     var map = L.map('map', {
       fullscreenControl: true
-    }).setView([10.762622, 106.660172], 12);
+    });
 
     // Lớp nền
     var streetMap = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -432,54 +429,17 @@
     };
     L.control.layers(baseMaps).addTo(map);
 
-  var routingControl; // để lưu tuyến đường hiện tại
-  // Hàm vẽ lộ trình
-  function showRoute(locations) {
-    // Xoá route cũ
-    if (routingControl) {
-      map.removeControl(routingControl);
-    }
-    // Vẽ route mới
-    routingControl = L.Routing.control({
-      waypoints: locations.map(loc => L.latLng(loc[0], loc[1])),
-      lineOptions: {
-        styles: [{color: 'red', weight: 4}]
-      },
-      createMarker: function(i, waypoint, n) {
-        return L.marker(waypoint.latLng).bindPopup("Bảo tàng " + (i+1));
-      },
-      addWaypoints: false,   // không cho thêm điểm tay
-      routeWhileDragging: false
-    }).addTo(map);
-  }
-  // Khi click vào chatbox
-  document.getElementById("chat-body").addEventListener("click", function(e) {
-    if (e.target.innerText.includes("Lộ trình 1")) {
-      showRoute([
-        [10.77724713978662, 106.69529136674576], // Dinh độc lập
-        [10.78842816206161, 106.70450576086436], // Bảo tàng Lịch sử VN
-        [10.777425204072086, 106.70658398023713]  // Bảo tàng Tôn Đức Thắng
-      ]);
-    }
-    if (e.target.innerText.includes("Lộ trình 2")) {
-      showRoute([
-        [10.77968976110387, 106.69209159558208], // Bảo tàng Chứng tích Chiến tranh
-        [10.776229080283908, 106.699561764892], // Bảo tàng TPHCM
-        [10.770269145655245, 106.69926079743563]  // Bảo tàng Mỹ Thuật
-      ]);
-    }
-    if (e.target.innerText.includes("Lộ trình 3")) {
-      showRoute([
-        [10.78510362982867, 106.70781058023714], // Bảo tàng Địa chất
-        [10.780092060863971, 106.6999556397634], // Bưu điện thành phố
-        [10.77724713978662, 106.69529136674576]  // Dinh độc lập
-      ]);
-    }
-  });
+    // Giới hạn khung nhìn bao trọn Việt Nam
+    var vietnamBounds = [
+      [8.179066, 102.14441],   // góc Tây Nam
+      [23.39273, 109.464638]   // góc Đông Bắc
+    ];
+    map.fitBounds(vietnamBounds);
+
     // Icon Việt Nam
     var vietnamIcon = L.icon({
       iconUrl: 'vietnam.png',
-      iconSize: [42, 28],
+      iconSize: [31.5, 21],
       iconAnchor: [20, 40],
       popupAnchor: [0, -40]
     });
@@ -634,7 +594,92 @@
         coords: [21.01051655343437, 105.75418932649416],
         link:"https://xaydungchinhsach.chinhphu.vn/tu-1-11-bao-tang-lich-su-quan-su-viet-nam-vi-tri-moi-mo-cua-don-khach-mien-phi-tham-quan-119241004184508454.htm",
         Image:"https://i.pinimg.com/1200x/84/3e/16/843e1644181e877643a2bb51434594ea.jpg"
+      },
+      {
+        name: "Nhà thờ Đức Bà", 
+        coords: [10.78004897693629, 106.69902962441832],
+        link:"https://www.xanhsm.com/news/nha-tho-duc-ba",
+        Image:"https://cdn.xanhsm.com/2024/11/f5d8fc3e-nha-tho-duc-ba-thumbnail-min-1.jpg"
+      },
+       {
+        name: "Khu Tưởng niệm Vườn Cau Đỏ", 
+        coords: [10.896085330912834, 106.68052431092879],
+        link:"https://visithcmc.vn/tin-tuc/du-lich-quan-12",
+        Image:"https://lh3.googleusercontent.com/gps-cs-s/AC9h4nrMVj8a9REmzp3xjKZQvMc1dVRsGwTMJYSee5K3C_RKs6HViMEmTRyH3xCWlPf1BuA6VqXy6HgQXYgeuVkiLdnnniWURAp2yKTbWjTJkditG8CCb-pKNo6CwGF665Uh7RbHIK3d=w408-h306-k-no"
+      },
+       {
+        name: "Di tích lịch sử chiến khu Rừng Sác Cần Giờ", 
+        coords: [10.407527046518023, 106.89682729822997],
+        link:"https://vinwonders.com/vi/wonderpedia/news/rung-sac-can-gio-tphcm/",
+        Image:"https://static.vinwonders.com/production/rung-sac-can-gio-1.jpg"
+      },
+       {
+        name: "Ban Tuyên huấn Xứ ủy Nam Bộ", 
+        coords: [10.781075273398095, 106.69245114954711],
+        link:"https://hcmcpv.org.vn/tin-tuc/-video-co-so-ban-tuyen-huan-xu-uy-nam-bo-su-sang-tao-chien-tranh-nhan-dan-giua-long-dich-1491909610",
+        Image:"https://file-quan3.hochiminhcity.gov.vn/data/images/0/2021/01/18/host/a86af7fce5b01aee43a1.jpg?w=680"
+      },
+      {
+        name: "Nhà tù Hỏa Lò",
+        coords: [21.025399, 105.848079],
+        link: "https://hoalo.vn/",
+        Image: "https://hoalo.vn/upload/images/nha-tu-hoa-lo-ha-noi.jpg"
+      },
+      {
+        name: "Khu di tích Hoàng Thành Thăng Long",
+        coords: [21.035913, 105.839306],
+        link: "http://www.hoangthanhthanglong.vn/",
+        Image: "https://media-cdn.tripadvisor.com/media/photo-s/0f/62/90/12/hoang-thanh-thang-long.jpg"
+      },
+      {
+        name: "Khu di tích Chủ tịch Hồ Chí Minh tại Phủ Chủ tịch",
+        coords: [21.040587, 105.834100],
+        link: "https://hochiminh.vn/",
+        Image: "https://cdn.vntrip.vn/cam-nang/wp-content/uploads/2017/07/lang-bac-ha-noi-3.jpg"
+      },
+      {
+        name: "Đền Hùng (TP.HCM - Q9)",
+        coords: [10.847512, 106.798642],
+        link: "https://visithcmc.vn/",
+        Image: "https://cdn.vntrip.vn/cam-nang/wp-content/uploads/2017/07/den-hung.jpg"
+      },
+      {
+        name: "Đài liệt sĩ Bến Dược (Củ Chi)",
+        coords: [11.128341, 106.500722],
+        link: "http://diadaocuchi.com.vn/",
+        Image: "https://cdn.vntrip.vn/cam-nang/wp-content/uploads/2017/07/den-ben-duoc.jpg"
+      },
+      {
+        name: "Bia tưởng niệm Thích Quảng Đức",
+        coords: [10.776652, 106.681441],
+        link: "https://visithcmc.vn/",
+        Image: "https://statics.vinpearl.com/chua-thich-quang-duc-1.jpg"
+      },
+      {
+        name: "Di tích lịch sử Nhà thờ Thủ Đức",
+        coords: [10.849268, 106.762301],
+        link: "https://visithcmc.vn/",
+        Image: "https://photo-cms-plo.zadn.vn/w800/Uploaded/2025/dsktw/2023_02_14/nha-tho-thu-duc-1-4046.jpg"
+      },
+      {
+        name: "Khu di tích lịch sử ATK Định Hóa (Thái Nguyên)",
+        coords: [21.853667, 105.605306],
+        link: "https://atkthainguyen.vn/",
+        Image: "https://photo-cms-vovworld.zadn.vn/w500/Uploaded/vovworld/ugpvof/2016_07_05/ATK-1_3CNV.jpg"
+      },
+      {
+        name: "Tượng đài Bắc Sơn (Hà Nội)",
+        coords: [21.036725, 105.833884],
+        link: "https://sodulich.hanoi.gov.vn/",
+        Image: "https://static.vinwonders.com/production/tuong-dai-bac-son-1.jpg"
+      },
+      {
+        name: "Nhà lưu niệm Bác Hồ (Bến Tre)",
+        coords: [10.240617, 106.374361],
+        link: "https://bentre.gov.vn/",
+        Image: "https://mia.vn/media/uploads/blog-du-lich/nha-luu-niem-bac-ho-ben-tre-1.jpg"
       }
+
     ];
 
    var markers = [];
